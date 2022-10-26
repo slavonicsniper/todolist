@@ -11,6 +11,7 @@
   },
   "private": true,
   "dependencies": {
+    "@alexy4744/nx-mikro-orm-cli": "^1.1.1",
     "@angular/animations": "~14.2.0",
     "@angular/common": "~14.2.0",
     "@angular/compiler": "~14.2.0",
@@ -19,6 +20,9 @@
     "@angular/platform-browser": "~14.2.0",
     "@angular/platform-browser-dynamic": "~14.2.0",
     "@angular/router": "~14.2.0",
+    "@mikro-orm/core": "^5.5.0",
+    "@mikro-orm/mysql": "^5.5.0",
+    "@mikro-orm/nestjs": "^5.1.2",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
