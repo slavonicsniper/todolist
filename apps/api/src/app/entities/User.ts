@@ -1,18 +1,28 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
+import {
+  Collection,
+  Entity,
+  OneToMany,
+  PrimaryKey,
+  Property,
+} from '@mikro-orm/core';
+import { v4 } from 'uuid';
+import { Task } from './Task';
 
 @Entity()
 export class User {
+  @PrimaryKey()
+  uuid: string = v4();
 
-    @PrimaryKey()
-    id!: number;
+  @Property({ nullable: false })
+  name!: string;
 
-    @Property()
-    name: string;
-  
-    @Property()
-    email: string;
+  @Property()
+  email: string;
 
-constructor(name: string, email: string) {
+  @OneToMany('Task', 'user')
+  task = new Collection<Task>(this);
+
+  constructor(name: string, email: string) {
     this.name = name;
     this.email = email;
   }

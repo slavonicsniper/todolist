@@ -1,13 +1,13 @@
 import { Logger } from '@nestjs/common';
-import { Options } from '@mikro-orm/core'
-import { User } from './entities';
-import "dotenv/config";
+import { Options } from '@mikro-orm/core';
+import { User, Task } from './entities';
+import 'dotenv/config';
 
 const logger = new Logger('MikroORM');
 const config: Options = {
-  entities: [ User ],
+  entities: [User, Task],
   dbName: 'todolist',
-  user: 'mysql',
+  user: 'root',
   password: process.env.DB_PASS,
   type: 'mysql',
   host: 'localhost',
