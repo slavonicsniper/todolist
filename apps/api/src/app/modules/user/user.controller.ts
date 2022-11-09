@@ -1,48 +1,28 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
-import { EntityRepository, QueryOrder, wrap } from '@mikro-orm/core';
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { User } from '../../entities';
+import { QueryOrder, wrap } from '@mikro-orm/core';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
-
-  constructor(@InjectRepository(User) private readonly userRepository: EntityRepository<User>) { }
+  constructor(private readonly userService: UserService) {}
 
   @Get()
-  async find() {
-    return await this.userRepository.findAll({
-      populate: [],
-      orderBy: { name: QueryOrder.DESC },
-      limit: 20,
-    });
+  findAll(){
+    return this.userService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param() id: string) {
-    return await this.userRepository.findOneOrFail(+id, {
-      populate: [],
-    });
+  @Get(':uuid')
+  findByUuid(@Param() uuid: string){
+    return this.userService.findByUuid(uuid);
   }
 
   @Post()
-  async create(@Body() body: any) {
-    if (!body.name || !body.email) {
-      throw new HttpException('One of `name, email` is missing', HttpStatus.BAD_REQUEST);
-    }
-
-    const user = this.userRepository.create(body);
-    await this.userRepository.persist(user).flush();
-
-    return user;
+  create(@Body() body: any) {
+    return this.userService.create(body);
   }
 
-  @Put(':id')
-  async update(@Param() id: string, @Body() body: any) {
-    const user = await this.userRepository.findOneOrFail(+id);
-    wrap(user).assign(body);
-    await this.userRepository.persist(user);
-
-    return user;
+  @Put(':uuid')
+  update(@Param() uuid: string, @Body() body: any) {
+    return this.userService.update(uuid, body);
   }
-
 }
