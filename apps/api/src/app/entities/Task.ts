@@ -10,14 +10,15 @@ export class Task {
   @Property()
   title: string;
 
-  @Property()
+  @Property({ nullable: true })
   details: string;
 
-  @Property()
+  @Property({ nullable: true })
   date: Date;
 
   @ManyToOne()
   user: User;
+
   constructor(title: string, details: string, date: Date) {
     this.title = title;
     this.details = details;

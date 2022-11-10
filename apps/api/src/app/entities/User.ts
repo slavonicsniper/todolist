@@ -13,11 +13,11 @@ export class User {
   @PrimaryKey()
   uuid: string = v4();
 
-  @Property({ nullable: false })
+  @Property()
   name!: string;
 
-  @Property()
-  email: string;
+  @Property({ unique: true })
+  email!: string;
 
   @OneToMany('Task', 'user')
   task = new Collection<Task>(this);

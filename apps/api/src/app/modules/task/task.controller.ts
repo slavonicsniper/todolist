@@ -10,34 +10,34 @@ import {
   Put,
 } from '@nestjs/common';
 import { QueryOrder, wrap } from '@mikro-orm/core';
-import { UserService } from './user.service';
+import { TaskService } from './task.service';
 
-@Controller('user')
-export class UserController {
-  constructor(private readonly userService: UserService) {}
+@Controller('task')
+export class TaskController {
+  constructor(private readonly taskService: TaskService) {}
 
   @Get()
   findAll() {
-    return this.userService.findAll();
+    return this.taskService.findAll();
   }
 
   @Get(':uuid')
   findByUuid(@Param() uuid: string) {
-    return this.userService.findByUuid(uuid);
+    return this.taskService.findByUuid(uuid);
   }
 
   @Post()
   create(@Body() body: any) {
-    return this.userService.create(body);
+    return this.taskService.create(body);
   }
 
   @Put(':uuid')
   update(@Param() uuid: string, @Body() body: any) {
-    return this.userService.update(uuid, body);
+    return this.taskService.update(uuid, body);
   }
 
   @Delete(':uuid')
   delete(@Param() uuid: string) {
-    return this.userService.delete(uuid);
+    return this.taskService.delete(uuid);
   }
 }
