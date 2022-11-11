@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './modules/auth/auth.module';
 
 import { OrmModule } from './modules/orm/orm.module';
 import { TaskController } from './modules/task/task.controller';
@@ -10,7 +11,7 @@ import { UserController } from './modules/user/user.controller';
 import { UserService } from './modules/user/user.service';
 
 @Module({
-  imports: [OrmModule],
+  imports: [OrmModule, AuthModule],
   controllers: [AppController, UserController, TaskController],
   providers: [AppService, UserService, TaskService],
 })

@@ -3,13 +3,10 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
-  HttpStatus,
   Param,
   Post,
   Put,
 } from '@nestjs/common';
-import { QueryOrder, wrap } from '@mikro-orm/core';
 import { UserService } from './user.service';
 
 @Controller('user')
