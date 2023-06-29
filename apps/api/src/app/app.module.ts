@@ -9,9 +9,10 @@ import { TaskController } from './modules/task/task.controller';
 import { TaskService } from './modules/task/task.service';
 import { UserController } from './modules/user/user.controller';
 import { UserService } from './modules/user/user.service';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
-  imports: [OrmModule, AuthModule],
+  imports: [OrmModule, AuthModule, PassportModule.register({ session: true })],
   controllers: [AppController, UserController, TaskController],
   providers: [AppService, UserService, TaskService],
 })
