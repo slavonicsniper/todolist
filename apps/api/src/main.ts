@@ -6,7 +6,7 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import session from 'express-session';
-import * as passport from 'passport';
+import passport from 'passport';
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {

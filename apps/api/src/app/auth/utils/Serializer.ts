@@ -10,7 +10,7 @@ export class SessionSerializer extends PassportSerializer {
   }
 
   deserializeUser(payload: any, done: Function) {
-    const userDB;
-    done(null, userDB);
+    // const userDB;
+    // done(null, userDB);
   }
 }

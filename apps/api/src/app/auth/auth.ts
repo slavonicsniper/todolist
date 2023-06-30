@@ -1,5 +1,7 @@
+import { UserDetails } from '../utils/types';
+
 export interface AuthenticationProvider {
-  validateUser();
+  validateUser(details: UserDetails);
   createUser();
   findUser();
 }

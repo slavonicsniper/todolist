@@ -2,6 +2,7 @@ import { EntityRepository, QueryOrder, wrap } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { HttpException, HttpStatus, Injectable, Param } from '@nestjs/common';
 import { User } from '../../entities/User';
+import { UserDetails } from '../../utils/types';
 
 @Injectable()
 export class UserService {
@@ -13,7 +14,7 @@ export class UserService {
   async findAll() {
     return await this.userRepository.findAll({
       populate: [],
-      orderBy: { name: QueryOrder.DESC },
+      orderBy: { username: QueryOrder.DESC },
       limit: 20,
     });
   }
@@ -24,15 +25,14 @@ export class UserService {
     });
   }
 
-  async create(body: any) {
-    if (!body.name || !body.email) {
-      throw new HttpException(
-        'One of `name, email` is missing',
-        HttpStatus.BAD_REQUEST
-      );
-    }
+  async findByDiscordId(discordId: string) {
+    return await this.userRepository.findOneOrFail(discordId, {
+      populate: [],
+    });
+  }
 
-    const user = this.userRepository.create(body);
+  async create(userDetails: UserDetails) {
+    const user = this.userRepository.create(userDetails);
     await this.userRepository.persist(user).flush();
 
     return user;

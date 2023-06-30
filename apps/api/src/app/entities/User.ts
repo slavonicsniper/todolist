@@ -13,17 +13,18 @@ export class User {
   @PrimaryKey()
   uuid: string = v4();
 
-  @Property()
-  name!: string;
+  @Property({ unique: true })
+  username!: string;
 
   @Property({ unique: true })
-  email!: string;
+  discordId!: string;
+
+  @Property()
+  discriminator!: string;
+
+  @Property()
+  avatar: string;
 
   @OneToMany('Task', 'user')
   task = new Collection<Task>(this);
-
-  constructor(name: string, email: string) {
-    this.name = name;
-    this.email = email;
-  }
 }
