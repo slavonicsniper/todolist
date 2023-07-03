@@ -26,9 +26,12 @@ export class UserService {
   }
 
   async findByDiscordId(discordId: string) {
-    return await this.userRepository.findOneOrFail(discordId, {
-      populate: [],
-    });
+    return await this.userRepository.findOne(
+      { discordId },
+      {
+        populate: [],
+      }
+    );
   }
 
   async create(userDetails: UserDetails) {

@@ -8,15 +8,9 @@ export class AuthService implements AuthenticationProvider {
   constructor(
     @Inject('USER_SERVICE') private readonly userService: UserService
   ) {}
-  validateUser(userDetails: UserDetails) {
+  async validateUser(userDetails: UserDetails) {
     const { discordId } = userDetails;
-    const user = this.userService.findByDiscordId(discordId);
+    const user = await this.userService.findByDiscordId(discordId);
     return user ? user : this.userService.create(userDetails);
-  }
-  createUser() {
-    throw new Error('Method not implemented.');
-  }
-  findUser() {
-    throw new Error('Method not implemented.');
   }
 }

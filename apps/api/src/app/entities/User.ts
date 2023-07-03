@@ -22,8 +22,8 @@ export class User {
   @Property()
   discriminator!: string;
 
-  @Property()
-  avatar: string;
+  @Property({ nullable: true })
+  avatar?: string;
 
   @OneToMany('Task', 'user')
   task = new Collection<Task>(this);
