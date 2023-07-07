@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TaskController } from './task.controller';
-import { OrmModule } from '../orm/orm.module';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { Task } from '../../entities';
+import { TaskService } from './task.service';
 
 @Module({
-  imports: [OrmModule],
+  imports: [MikroOrmModule.forFeature([Task])],
   controllers: [TaskController],
-  providers: [],
+  providers: [TaskService],
 })
 export class TaskModule {}

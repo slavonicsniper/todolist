@@ -2,12 +2,13 @@ import { Module } from '@nestjs/common';
 import { DiscordStrategy } from './strategies/discord.strategy';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UserService } from '../modules/user/user.service';
-import { OrmModule } from '../modules/orm/orm.module';
+import { UserService } from '../user/user.service';
 import { SessionSerializer } from './utils/Serializer';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { User } from '../../entities';
 
 @Module({
-  imports: [OrmModule],
+  imports: [MikroOrmModule.forFeature([User])],
   controllers: [AuthController],
   providers: [
     DiscordStrategy,

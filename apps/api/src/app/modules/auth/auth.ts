@@ -1,4 +1,4 @@
-import { UserDetails } from '../utils/types';
+import { UserDetails } from '../../utils/types';
 
 export interface AuthenticationProvider {
   validateUser(details: UserDetails);
