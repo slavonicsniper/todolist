@@ -8,10 +8,16 @@ import { NestFactory } from '@nestjs/core';
 import session from 'express-session';
 import passport from 'passport';
 import { AppModule } from './app/app.module';
+import { createClient } from 'redis';
+import RedisStore from 'connect-redis';
+import 'dotenv/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
+  const client = createClient({ url: process.env.REDIS_URI });
+  client.on('connect', () => console.log('connected to redis'));
+  client.connect().catch(console.error);
   app.use(
     session({
       cookie: {
@@ -20,6 +26,7 @@ async function bootstrap() {
       secret: 'very$ecure$ecret',
       resave: false,
       saveUninitialized: false,
+      store: new RedisStore({ client }),
     })
   );
   app.setGlobalPrefix(globalPrefix);
