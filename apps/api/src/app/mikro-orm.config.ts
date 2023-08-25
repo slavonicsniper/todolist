@@ -14,6 +14,7 @@ const config: Options = {
   port: 3306,
   debug: true,
   logger: logger.log.bind(logger),
+  allowGlobalContext: true,
 };
 
 export default config;
