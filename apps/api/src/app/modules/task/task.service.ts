@@ -2,6 +2,8 @@ import { EntityRepository, QueryOrder, wrap } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { HttpException, HttpStatus, Injectable, Param } from '@nestjs/common';
 import { Task } from '../../entities/Task';
+import { CreateTaskDto } from './create-task.dto';
+import { User } from '../../entities/User';
 
 @Injectable()
 export class TaskService {
@@ -13,7 +15,7 @@ export class TaskService {
   async findAll() {
     return await this.taskRepository.findAll({
       populate: [],
-      orderBy: { title: QueryOrder.DESC },
+      orderBy: { text: QueryOrder.DESC },
       limit: 20,
     });
   }
@@ -24,12 +26,12 @@ export class TaskService {
     });
   }
 
-  async create(body: any) {
-    if (!body.title) {
-      throw new HttpException('Title is missing', HttpStatus.BAD_REQUEST);
+  async create(user, body: CreateTaskDto) {
+    const { text } = body;
+    if (!body.text) {
+      throw new HttpException('Text is missing', HttpStatus.BAD_REQUEST);
     }
-
-    const task = this.taskRepository.create(body);
+    const task = this.taskRepository.create({ text, user: user.uuid });
     await this.taskRepository.persist(task).flush();
 
     return task;

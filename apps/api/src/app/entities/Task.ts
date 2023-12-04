@@ -8,20 +8,11 @@ export class Task {
   uuid: string = v4();
 
   @Property()
-  title: string;
+  text: string;
 
-  @Property({ nullable: true })
-  details: string;
-
-  @Property({ nullable: true })
-  date: Date;
+  @Property({ default: false })
+  isCompleted: boolean;
 
   @ManyToOne()
   user: User;
-
-  constructor(title: string, details: string, date: Date) {
-    this.title = title;
-    this.details = details;
-    this.date = date;
-  }
 }
