@@ -2,6 +2,7 @@ import { EntityRepository, QueryOrder, wrap } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { HttpException, HttpStatus, Injectable, Param } from '@nestjs/common';
 import { Task } from '../../entities/Task';
+import { User } from '../../entities';
 
 @Injectable()
 export class TaskService {
@@ -19,6 +20,8 @@ export class TaskService {
   }
 
   async findByUuid(uuid: string) {
+    // await this.userRepository.findAll();
+
     return await this.taskRepository.findOneOrFail(uuid, {
       populate: [],
     });
@@ -31,7 +34,6 @@ export class TaskService {
 
     const task = this.taskRepository.create(body);
     await this.taskRepository.persist(task).flush();
-
     return task;
   }
 

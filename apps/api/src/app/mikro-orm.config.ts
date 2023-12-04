@@ -10,7 +10,7 @@ const config: Options = {
   user: 'root',
   password: process.env.DB_PASS,
   type: 'mysql',
-  host: 'localhost',
+  host: process.env.DB_HOST,
   port: 3306,
   debug: true,
   logger: logger.log.bind(logger),
