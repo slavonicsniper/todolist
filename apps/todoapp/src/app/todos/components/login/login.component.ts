@@ -10,12 +10,23 @@ import { HttpClient } from '@angular/common/http';
 export class LoginComponent {
   constructor(private http: HttpClient, private router: Router) {}
 
+  // loginWithDiscord() {
+  //   // Redirect the user to your backend route for Discord authentication
+  //   this.http
+  //     .get('http://localhost:3333/api/auth/login', { withCredentials: true })
+  //     .subscribe(() => {
+  //       this.router.navigate(['/']);
+  //     });
+  // }
+
   loginWithDiscord() {
     // Redirect the user to your backend route for Discord authentication
-    this.http
-      .get('http://localhost:3333/api/auth/login', { withCredentials: true })
-      .subscribe(() => {
-        this.router.navigate(['/']);
-      });
+    const authUrl = 'http://localhost:3333/api/auth/login';
+
+    // Open the authentication link in a new tab
+    window.location.href = authUrl;
+
+    // Redirect the user to the home page (optional)
+    // this.router.navigate([authUrl]);
   }
 }
