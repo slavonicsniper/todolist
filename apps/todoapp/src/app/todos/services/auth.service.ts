@@ -10,7 +10,9 @@ import { DiscordUser } from '../types/discordUser.interface';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    this.checkAuthStatus();
+  }
   user$ = new BehaviorSubject<DiscordUser>({} as DiscordUser);
 
   checkAuthStatus() {
@@ -21,12 +23,12 @@ export class AuthService {
           // User is authenticated, proceed with your application
           console.log('User is authenticated:', user);
           this.user$.next(user as DiscordUser);
-        },
-        (error) => {
-          // 403 response, user is not authenticated
-          console.error('User is not authenticated:', error);
-          this.router.navigate(['/login']);
         }
+        // (error) => {
+        //   // 403 response, user is not authenticated
+        //   console.error('User is not authenticated:', error);
+        //   this.router.navigate(['/login']);
+        // }
       );
   }
 }
