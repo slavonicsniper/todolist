@@ -18,7 +18,6 @@ export class UserInfoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.authService.checkAuthStatus();
     this.authService.user$.subscribe((user) => {
       this.user = user;
       this.discordService.getUserAvatar(this.user).then((avatar) => {
