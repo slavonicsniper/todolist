@@ -4,12 +4,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { HttpClientModule } from '@angular/common/http';
-import { TodosModule } from './todos/todos.module';
+import { MainModule } from './todos/modules/main.module';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
-  imports: [BrowserModule, HttpClientModule, TodosModule, AppRoutingModule],
+  imports: [BrowserModule, HttpClientModule, MainModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
 })

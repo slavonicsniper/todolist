@@ -4,6 +4,12 @@ body {
   padding: 0;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
 button {
   margin: 0;
   padding: 0;
@@ -516,9 +522,4 @@ hr {
   .learn-bar > .learn {
     left: 8px;
   }
-}
-
-.user {
-  display: flex;
-  justify-content: flex-end;
 }
