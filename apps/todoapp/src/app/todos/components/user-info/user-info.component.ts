@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { DiscordUser } from '../../types/discordUser.interface';
+import { DiscordService } from '../../services/discord.service';
 
 @Component({
   selector: 'todolist-user-info',
@@ -9,13 +10,20 @@ import { DiscordUser } from '../../types/discordUser.interface';
 })
 export class UserInfoComponent implements OnInit {
   user!: DiscordUser;
+  userAvatar!: string;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private discordService: DiscordService
+  ) {}
 
   ngOnInit() {
     this.authService.checkAuthStatus();
     this.authService.user$.subscribe((user) => {
       this.user = user;
+      this.discordService.getUserAvatar(this.user).then((avatar) => {
+        this.userAvatar = avatar;
+      });
     });
   }
 }

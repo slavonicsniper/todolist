@@ -1,4 +1,6 @@
 <div class="user">
-  <p>Welcome</p>
-  <a [routerLink]="['/profile/' + user.uuid]"> {{ user.username }}</a>
+  <a [routerLink]="['/profile/' + user.uuid]" class="clickableUser">
+    <p>{{ user.username }} &nbsp;</p>
+    <img [src]="userAvatar" alt="User avatar" />
+  </a>
 </div>
