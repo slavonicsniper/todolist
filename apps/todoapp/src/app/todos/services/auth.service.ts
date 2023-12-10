@@ -23,12 +23,12 @@ export class AuthService {
           // User is authenticated, proceed with your application
           console.log('User is authenticated:', user);
           this.user$.next(user as DiscordUser);
+        },
+        (error) => {
+          // 401 response, user is not authenticated
+          console.error('User is not authenticated:', error);
+          this.router.navigate(['/login']);
         }
-        // (error) => {
-        //   // 403 response, user is not authenticated
-        //   console.error('User is not authenticated:', error);
-        //   this.router.navigate(['/login']);
-        // }
       );
   }
 }
