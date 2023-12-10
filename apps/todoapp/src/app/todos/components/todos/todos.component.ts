@@ -13,7 +13,6 @@ export class TodosComponent {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.authService.checkAuthStatus();
     this.authService.user$.subscribe((user) => {
       this.user = user;
     });
