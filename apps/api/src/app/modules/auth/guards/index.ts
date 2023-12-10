@@ -1,4 +1,9 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
 
@@ -16,6 +21,13 @@ export class DiscordAuthGuard extends AuthGuard('discord') {
 export class AuthenticatedGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
-    return req.isAuthenticated();
+
+    if (req.isAuthenticated()) {
+      return true;
+    }
+
+    throw new UnauthorizedException(
+      'Authentication credentials are missing or invalid'
+    );
   }
 }
