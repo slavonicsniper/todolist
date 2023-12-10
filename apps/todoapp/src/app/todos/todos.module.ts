@@ -7,6 +7,7 @@ import { MainComponent } from './components/main/main.component';
 import { CommonModule } from '@angular/common';
 import { TodoComponent } from './components/todo/todo.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
     MainComponent,
     TodoComponent,
     FooterComponent,
+    LogoutComponent,
   ],
   imports: [CommonModule, RouterModule.forChild(routes)],
   providers: [TodosService],

@@ -20,15 +20,31 @@ export class AuthService {
       .get('http://localhost:3333/api/auth/status', { withCredentials: true })
       .subscribe(
         (user) => {
-          // User is authenticated, proceed with your application
-          console.log('User is authenticated:', user);
+          console.log('user is authenticated');
           this.user$.next(user as DiscordUser);
+        },
+        // this is needed becausae without that after logout, the home page is accessible
+        (error) => {
+          console.error('User is not authenticated:', error);
+          this.router.navigate(['/login']);
         }
-        // (error) => {
-        //   // 403 response, user is not authenticated
-        //   console.error('User is not authenticated:', error);
-        //   this.router.navigate(['/login']);
-        // }
       );
+  }
+
+  logout() {
+    this.user$.next({} as DiscordUser);
+
+    this.http
+      .get('http://localhost:3333/api/auth/logout', { withCredentials: true })
+      .subscribe(
+        () => {
+          console.log('Logout successful');
+        },
+        (error) => {
+          console.error('Logout error', error);
+        }
+      );
+
+    this.router.navigate(['/login']);
   }
 }

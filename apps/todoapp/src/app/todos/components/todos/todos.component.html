@@ -1,4 +1,5 @@
 <div class="user">{{ user.username }}</div>
+<app-logout *ngIf="user.username"></app-logout>
 <div class="todoapp">
   <app-todos-header></app-todos-header>
   <app-todos-main></app-todos-main>
