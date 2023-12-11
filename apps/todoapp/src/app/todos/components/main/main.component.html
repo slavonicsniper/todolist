@@ -1,3 +1,15 @@
+<section>
+  <h1>todos</h1>
+  <input
+    class="new-todo"
+    placeholder="What needs to be done?"
+    auto
+    [value]="text"
+    (keyup)="changeText($event)"
+    (keyup.enter)="addTodo()"
+  />
+</section>
+
 <section class="main" [ngClass]="{ hidden: noTodoClass$ | async }">
   <input
     type="checkbox"

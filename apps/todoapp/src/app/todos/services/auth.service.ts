@@ -25,6 +25,7 @@ export class AuthService {
         },
         // this is needed becausae without that after logout, the home page is accessible
         (error) => {
+          // 401 response, user is not authenticated
           console.error('User is not authenticated:', error);
           this.router.navigate(['/login']);
         }
