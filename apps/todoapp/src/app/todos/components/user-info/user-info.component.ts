@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component, Input } from '@angular/core';
 import { DiscordUser } from '../../types/discordUser.interface';
 
 @Component({
@@ -7,14 +6,6 @@ import { DiscordUser } from '../../types/discordUser.interface';
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.scss'],
 })
-export class UserInfoComponent implements OnInit {
-  user!: DiscordUser;
-
-  constructor(private authService: AuthService) {}
-
-  ngOnInit() {
-    this.authService.user$.subscribe((user) => {
-      this.user = user;
-    });
-  }
+export class UserInfoComponent {
+  @Input('user') user!: DiscordUser;
 }
