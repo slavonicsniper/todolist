@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component, Input } from '@angular/core';
 import { DiscordUser } from '../../types/discordUser.interface';
 import { DiscordService } from '../../services/discord.service';
 
@@ -9,6 +8,7 @@ import { DiscordService } from '../../services/discord.service';
   styleUrls: ['./user-info.component.scss'],
 })
 export class UserInfoComponent implements OnInit {
+  // @Input('user') user!: DiscordUser;
   user!: DiscordUser;
   userAvatar!: string;
 
