@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { DiscordUser } from '../../types/discordUser.interface';
 import { DiscordService } from '../../services/discord.service';
 
@@ -7,22 +7,17 @@ import { DiscordService } from '../../services/discord.service';
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.scss'],
 })
-export class UserInfoComponent implements OnInit {
-  // @Input('user') user!: DiscordUser;
-  user!: DiscordUser;
+export class UserInfoComponent implements OnChanges {
+  @Input('user') user!: DiscordUser;
   userAvatar!: string;
 
-  constructor(
-    private authService: AuthService,
-    private discordService: DiscordService
-  ) {}
+  constructor(private discordService: DiscordService) {}
 
-  ngOnInit() {
-    this.authService.user$.subscribe((user) => {
-      this.user = user;
+  ngOnChanges() {
+    if (this.user) {
       this.discordService.getUserAvatar(this.user).then((avatar) => {
         this.userAvatar = avatar;
       });
-    });
+    }
   }
 }
