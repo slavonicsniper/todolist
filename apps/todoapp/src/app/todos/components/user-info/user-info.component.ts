@@ -14,10 +14,12 @@ export class UserInfoComponent implements OnChanges {
   constructor(private discordService: DiscordService) {}
 
   ngOnChanges() {
-    if (this.user) {
-      this.discordService.getUserAvatar(this.user).then((avatar) => {
-        this.userAvatar = avatar;
-      });
-    }
+    this.user.avatar
+      ? this.discordService
+          .getUserAvatar(this.user)
+          .then((avatar) => (this.userAvatar = avatar))
+      : this.discordService
+          .getDefaultAvatar(this.user)
+          .then((avatar) => (this.userAvatar = avatar));
   }
 }

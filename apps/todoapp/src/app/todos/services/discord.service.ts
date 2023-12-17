@@ -8,4 +8,10 @@ export class DiscordService {
   async getUserAvatar(discordUser: DiscordUser): Promise<string> {
     return `https://cdn.discordapp.com/avatars/${discordUser.discordId}/${discordUser.avatar}.png`;
   }
+
+  async getDefaultAvatar(discordUser: DiscordUser): Promise<string> {
+    return `https://cdn.discordapp.com/embed/avatars/${discordUser.discriminator.slice(
+      -1
+    )}.png`;
+  }
 }
