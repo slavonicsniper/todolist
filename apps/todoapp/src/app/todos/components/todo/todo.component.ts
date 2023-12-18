@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { TodoInterface } from '../../types/todo.interface';
+import { TodoResponse } from '../../types/todo.interface';
 import { TodosService } from '../../services/todos.service';
 
 @Component({
@@ -17,7 +17,7 @@ import { TodosService } from '../../services/todos.service';
   templateUrl: './todo.component.html',
 })
 export class TodoComponent implements OnInit, OnChanges {
-  @Input('todo') todoProps!: TodoInterface;
+  @Input('todo') todoProps!: TodoResponse;
   @Input('isEditing') isEditingProps!: boolean;
   @Output('setEditingId') setEditingIdEvent: EventEmitter<string | null> =
     new EventEmitter();
@@ -40,15 +40,15 @@ export class TodoComponent implements OnInit, OnChanges {
   }
 
   setTodoInEditMode(): void {
-    this.setEditingIdEvent.emit(this.todoProps.id);
+    this.setEditingIdEvent.emit(this.todoProps.uuid);
   }
 
   removeTodo(): void {
-    this.todosService.removeTodo(this.todoProps.id);
+    this.todosService.removeTodo(this.todoProps.uuid);
   }
 
   toggleTodo(): void {
-    this.todosService.toggleTodo(this.todoProps.id);
+    this.todosService.toggleTodo(this.todoProps.uuid);
   }
 
   changeText(event: Event): void {
@@ -57,7 +57,7 @@ export class TodoComponent implements OnInit, OnChanges {
   }
 
   changeTodo(): void {
-    this.todosService.changeTodo(this.todoProps.id, this.editingText);
+    this.todosService.changeTodo(this.todoProps.uuid, this.editingText);
     this.setEditingIdEvent.emit(null);
   }
 }

@@ -1,9 +1,9 @@
-import { EntityRepository, QueryOrder, wrap } from '@mikro-orm/core';
+import { EntityRepository, EntityManager } from '@mikro-orm/core';
+import { QueryOrder, wrap } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { HttpException, HttpStatus, Injectable, Param } from '@nestjs/common';
 import { Task } from '../../entities/Task';
-import { CreateTaskDto } from './create-task.dto';
-import { User } from '../../entities/User';
+import { CreateTaskDto, UpdateTaskDto } from './dto';
 
 @Injectable()
 export class TaskService {
@@ -12,17 +12,29 @@ export class TaskService {
     private readonly taskRepository: EntityRepository<Task>
   ) {}
 
-  async findAll() {
-    return await this.taskRepository.findAll({
-      populate: [],
-      orderBy: { text: QueryOrder.DESC },
-      limit: 20,
-    });
+  async findByUser(user) {
+    return await this.taskRepository.find(
+      { user: user.uuid },
+      {
+        populate: [],
+        orderBy: { text: QueryOrder.DESC },
+        limit: 20,
+      }
+    );
   }
 
   async findByUuid(uuid: string) {
     return await this.taskRepository.findOneOrFail(uuid, {
       populate: [],
+    });
+  }
+
+  async toggleAll(updatedTodos: UpdateTaskDto[]) {
+    updatedTodos.forEach((todo) => {
+      this.taskRepository.nativeUpdate(
+        { uuid: todo.uuid },
+        { isCompleted: todo.isCompleted }
+      );
     });
   }
 
@@ -37,7 +49,7 @@ export class TaskService {
     return task;
   }
 
-  async update(uuid: string, body: any) {
+  async update(uuid: string, body: UpdateTaskDto) {
     const task = await this.taskRepository.findOneOrFail(uuid);
     wrap(task).assign(body);
     await this.taskRepository.persist(task).flush();

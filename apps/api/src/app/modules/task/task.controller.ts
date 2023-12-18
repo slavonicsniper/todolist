@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
-import { CreateTaskDto } from './create-task.dto';
+import { CreateTaskDto, UpdateTaskDto } from './dto';
 import { AuthenticatedGuard } from '../auth/guards';
 import { Request } from 'express';
 
@@ -19,11 +19,14 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Get()
-  findAll() {
-    return this.taskService.findAll();
+  @UseGuards(AuthenticatedGuard)
+  async findByUser(@Req() req: Request) {
+    const user = await req.user;
+    return this.taskService.findByUser(user);
   }
 
   @Get(':uuid')
+  @UseGuards(AuthenticatedGuard)
   findByUuid(@Param() uuid: string) {
     return this.taskService.findByUuid(uuid);
   }
@@ -33,6 +36,12 @@ export class TaskController {
   async create(@Req() req: Request, @Body() body: CreateTaskDto) {
     const user = await req.user;
     return this.taskService.create(user, body);
+  }
+
+  @Put('toggleAll')
+  @UseGuards(AuthenticatedGuard)
+  toggleAll(@Body() body: UpdateTaskDto[]) {
+    return this.taskService.toggleAll(body);
   }
 
   @Put(':uuid')
