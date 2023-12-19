@@ -1,3 +1,6 @@
 <div class="user">
-  <a [routerLink]="['/profile/' + user.uuid]"> {{ user.username }}</a>
+  <a [routerLink]="['/profile/' + user.uuid]">
+    <p>{{ user.username }} &nbsp;</p>
+    <img [src]="userAvatar" alt="User avatar" />
+  </a>
 </div>

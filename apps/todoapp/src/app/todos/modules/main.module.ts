@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { TodoComponent } from '../components/todo/todo.component';
 import { FooterComponent } from '../components/footer/footer.component';
 import { UserInfoComponent } from '../components/user-info/user-info.component';
+import { DiscordService } from '../services/discord.service';
 import { LogoutComponent } from '../components/logout/logout.component';
 
 const routes: Routes = [
@@ -28,6 +29,6 @@ const routes: Routes = [
     LogoutComponent,
   ],
   imports: [CommonModule, RouterModule.forChild(routes)],
-  providers: [TodosService],
+  providers: [TodosService, DiscordService],
 })
 export class MainModule {}
