@@ -10,8 +10,7 @@ export class DiscordService {
   }
 
   async getDefaultAvatar(discordUser: DiscordUser): Promise<string> {
-    return `https://cdn.discordapp.com/embed/avatars/${discordUser.discriminator.slice(
-      -1
-    )}.png`;
+    let png = parseInt(discordUser.discriminator) % 5;
+    return `https://cdn.discordapp.com/embed/avatars/${png}.png`;
   }
 }
