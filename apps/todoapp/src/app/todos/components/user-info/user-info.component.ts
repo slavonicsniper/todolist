@@ -8,26 +8,19 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.scss'],
 })
-export class UserInfoComponent implements OnInit {
+export class UserInfoComponent implements OnChanges {
   @Input('user') user!: DiscordUser;
   userAvatar!: string;
 
-  constructor(
-    private authService: AuthService,
-    private discordService: DiscordService
-  ) {}
+  constructor(private discordService: DiscordService) {}
 
-  ngOnInit() {
-    this.authService.user$.subscribe((user) => {
-      this.user = user;
-      this.discordService.getUserAvatar(this.user).then((avatar) => {
-        this.userAvatar = avatar;
-        if (avatar == null) {
-          this.discordService.getDefaultAvatar(this.user).then((avatar) => {
-            this.userAvatar = avatar;
-          });
-        }
-      });
-    });
+  ngOnChanges() {
+    this.user.avatar
+      ? this.discordService
+          .getUserAvatar(this.user)
+          .then((avatar) => (this.userAvatar = avatar))
+      : this.discordService
+          .getDefaultAvatar(this.user)
+          .then((avatar) => (this.userAvatar = avatar));
   }
 }
