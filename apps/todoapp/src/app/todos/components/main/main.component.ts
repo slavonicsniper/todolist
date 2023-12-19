@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
-import { TodoInterface } from '../../types/todo.interface';
+import { TodoResponse } from '../../types/todo.interface';
 import { TodosService } from '../../services/todos.service';
 import { map } from 'rxjs/operators';
 import { FilterEnum } from '../../types/filter.enum';
@@ -10,7 +10,7 @@ import { FilterEnum } from '../../types/filter.enum';
   templateUrl: './main.component.html',
 })
 export class MainComponent {
-  visibleTodos$: Observable<TodoInterface[]>;
+  visibleTodos$: Observable<TodoResponse[]>;
   noTodoClass$: Observable<boolean>;
   isAllTodosSelected$: Observable<boolean>;
   editingId: string | null = null;
@@ -27,7 +27,7 @@ export class MainComponent {
       this.todosService.todos$,
       this.todosService.filter$
     ).pipe(
-      map(([todos, filter]: [TodoInterface[], FilterEnum]) => {
+      map(([todos, filter]: [TodoResponse[], FilterEnum]) => {
         if (filter === FilterEnum.active) {
           return todos.filter((todo) => !todo.isCompleted);
         } else if (filter === FilterEnum.completed) {

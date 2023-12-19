@@ -1,20 +1,54 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { TodoInterface } from '../types/todo.interface';
+import { TodoRequest, TodoResponse } from '../types/todo.interface';
 import { FilterEnum } from '../types/filter.enum';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'apps/todoapp/src/environments/environment';
 
 @Injectable()
 export class TodosService {
-  todos$ = new BehaviorSubject<TodoInterface[]>([]);
+  constructor(private http: HttpClient) {
+    this.getTodos();
+  }
+  todos$ = new BehaviorSubject<TodoResponse[]>([]);
   filter$ = new BehaviorSubject<FilterEnum>(FilterEnum.all);
+  getTodos(): void {
+    this.http
+      .get(`${environment.apiUrl}/task`, {
+        withCredentials: true,
+      })
+      .subscribe(
+        (todos) => {
+          this.todos$.next(todos as TodoResponse[]);
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
+  }
   addTodo(text: string): void {
-    const newTodo: TodoInterface = {
+    const newTodo: TodoRequest = {
       text,
       isCompleted: false,
-      id: Math.random().toString(16),
     };
-    const updatedTodos = [...this.todos$.getValue(), newTodo];
-    this.todos$.next(updatedTodos);
+
+    this.http
+      .post(`${environment.apiUrl}/task`, newTodo, {
+        withCredentials: true,
+      })
+      .subscribe(
+        (newTodo) => {
+          console.log('Task created!');
+          const updatedTodos = [
+            ...this.todos$.getValue(),
+            newTodo as TodoResponse,
+          ];
+          this.todos$.next(updatedTodos);
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
   }
 
   toggleAll(isCompleted: boolean): void {
@@ -24,7 +58,19 @@ export class TodosService {
         isCompleted,
       };
     });
-    this.todos$.next(updatedTodos);
+    this.http
+      .put(`${environment.apiUrl}/task/toggleAll`, updatedTodos, {
+        withCredentials: true,
+      })
+      .subscribe(
+        (response) => {
+          console.log('Tasks complete status updated');
+          this.todos$.next(updatedTodos);
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
   }
 
   changeFilter(filterName: FilterEnum): void {
@@ -33,11 +79,21 @@ export class TodosService {
 
   changeTodo(id: string, text: string): void {
     const updatedTodos = this.todos$.getValue().map((todo) => {
-      if (todo.id === id) {
-        return {
-          ...todo,
-          text,
-        };
+      if (todo.uuid === id) {
+        const updatedTodo = { ...todo, text };
+        this.http
+          .put(`${environment.apiUrl}/task/${id}`, updatedTodo, {
+            withCredentials: true,
+          })
+          .subscribe(
+            (response) => {
+              console.log('Task text updated');
+            },
+            (error) => {
+              console.error('Error:', error);
+            }
+          );
+        return updatedTodo;
       }
       return todo;
     });
@@ -45,19 +101,41 @@ export class TodosService {
   }
 
   removeTodo(id: string): void {
-    const updatedTodos = this.todos$
-      .getValue()
-      .filter((todo) => todo.id !== id);
-    this.todos$.next(updatedTodos);
+    this.http
+      .delete(`${environment.apiUrl}/task/${id}`, {
+        withCredentials: true,
+      })
+      .subscribe(
+        (response) => {
+          console.log('Task deleted');
+          const updatedTodos = this.todos$
+            .getValue()
+            .filter((todo) => todo.uuid !== id);
+          this.todos$.next(updatedTodos);
+        },
+        (error) => {
+          console.error('Error:', error);
+        }
+      );
   }
 
   toggleTodo(id: string): void {
     const updatedTodos = this.todos$.getValue().map((todo) => {
-      if (todo.id === id) {
-        return {
-          ...todo,
-          isCompleted: !todo.isCompleted,
-        };
+      if (todo.uuid === id) {
+        const updatedTodo = { ...todo, isCompleted: !todo.isCompleted };
+        this.http
+          .put(`${environment.apiUrl}/task/${id}`, updatedTodo, {
+            withCredentials: true,
+          })
+          .subscribe(
+            (response) => {
+              console.log('Task complete status updated');
+            },
+            (error) => {
+              console.error('Error:', error);
+            }
+          );
+        return updatedTodo;
       }
       return todo;
     });
