@@ -1,7 +1,6 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { DiscordUser } from '../../types/discordUser.interface';
 import { DiscordService } from '../../services/discord.service';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'todolist-user-info',
